@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "Task": {
+      "title": "Task",
+      "description": "User daily task item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300 },
+        "date": { "type": "string", "maxLength": 10 },
+        "time": { "type": "string", "maxLength": 10 },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "category": { "type": "string", "enum": ["work", "study", "personal", "health", "finance", "other"] },
+        "completed": { "type": "boolean" },
+        "notes": { "type": "string", "maxLength": 2000 },
+        "reminder": { "type": "boolean" },
+        "createdAt": { "type": "number" },
+        "isTopPriority": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "title", "date", "priority", "category", "completed", "createdAt"]
+    },
+    "Habit": {
+      "title": "Habit",
+      "description": "User daily habit tracker",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 200 },
+        "icon": { "type": "string", "maxLength": 20 },
+        "frequency": { "type": "array" },
+        "completedDates": { "type": "array" },
+        "currentStreak": { "type": "number" },
+        "bestStreak": { "type": "number" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["id", "userId", "name", "icon", "frequency", "completedDates", "currentStreak", "bestStreak", "createdAt"]
+    },
+    "TimeBlock": {
+      "title": "TimeBlock",
+      "description": "User daily schedule block",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 10 },
+        "startTime": { "type": "string", "maxLength": 10 },
+        "endTime": { "type": "string", "maxLength": 10 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "enum": ["work", "study", "personal", "health", "finance", "other"] },
+        "notes": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["id", "userId", "date", "startTime", "endTime", "title", "category"]
+    },
+    "DailyNote": {
+      "title": "DailyNote",
+      "description": "User note for a specific day",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "content": { "type": "string", "maxLength": 5000 }
+      },
+      "required": ["date", "userId", "content"]
+    },
+    "DailyReview": {
+      "title": "DailyReview",
+      "description": "User end of day reflection review",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "maxLength": 10 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "achievements": { "type": "string", "maxLength": 3000 },
+        "improvements": { "type": "string", "maxLength": 3000 },
+        "tomorrowPriority": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["date", "userId", "achievements", "improvements", "tomorrowPriority"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "#/entities/Task" },
+      "description": "User specific tasks"
+    },
+    "/users/{userId}/habits/{habitId}": {
+      "schema": { "$ref": "#/entities/Habit" },
+      "description": "User specific habits"
+    },
+    "/users/{userId}/timeBlocks/{timeBlockId}": {
+      "schema": { "$ref": "#/entities/TimeBlock" },
+      "description": "User schedule time blocks"
+    },
+    "/users/{userId}/notes/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyNote" },
+      "description": "User daily notes"
+    },
+    "/users/{userId}/reviews/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyReview" },
+      "description": "User daily reviews"
+    }
+  }
+}

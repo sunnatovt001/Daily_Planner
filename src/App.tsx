@@ -10,6 +10,7 @@ import HabitsView from './components/HabitsView';
 import CalendarView from './components/CalendarView';
 import StatisticsView from './components/StatisticsView';
 import QuickAddModal from './components/QuickAddModal';
+import UserProfileWidget from './components/UserProfileWidget';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -114,7 +115,8 @@ function AppContent() {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-white/10 space-y-3">
+          <UserProfileWidget />
           <button
             onClick={() => {
               setIsQuickAddOpen(true);

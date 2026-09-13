@@ -1,0 +1,115 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Validation functions for entities
+    function isValidTask(data, userId) {
+      return data.keys().hasAll(['id', 'userId', 'title', 'date', 'priority', 'category', 'completed', 'createdAt']) &&
+             data.id is string && data.id.size() <= 128 &&
+             data.userId == userId &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 300 &&
+             data.date is string && data.date.size() <= 10 &&
+             (data.priority == 'low' || data.priority == 'medium' || data.priority == 'high') &&
+             (data.category == 'work' || data.category == 'study' || data.category == 'personal' || data.category == 'health' || data.category == 'finance' || data.category == 'other') &&
+             data.completed is bool &&
+             data.createdAt is number;
+    }
+
+    function isValidHabit(data, userId) {
+      return data.keys().hasAll(['id', 'userId', 'name', 'icon', 'frequency', 'completedDates', 'currentStreak', 'bestStreak', 'createdAt']) &&
+             data.id is string && data.id.size() <= 128 &&
+             data.userId == userId &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+             data.icon is string && data.icon.size() <= 20 &&
+             data.frequency is list && data.frequency.size() <= 10 &&
+             data.completedDates is list && data.completedDates.size() <= 1000 &&
+             data.currentStreak is number &&
+             data.bestStreak is number &&
+             data.createdAt is number;
+    }
+
+    function isValidTimeBlock(data, userId) {
+      return data.keys().hasAll(['id', 'userId', 'date', 'startTime', 'endTime', 'title', 'category']) &&
+             data.id is string && data.id.size() <= 128 &&
+             data.userId == userId &&
+             data.date is string && data.date.size() <= 10 &&
+             data.startTime is string && data.startTime.size() <= 10 &&
+             data.endTime is string && data.endTime.size() <= 10 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+             (data.category == 'work' || data.category == 'study' || data.category == 'personal' || data.category == 'health' || data.category == 'finance' || data.category == 'other');
+    }
+
+    function isValidDailyNote(data, userId) {
+      return data.keys().hasAll(['date', 'userId', 'content']) &&
+             data.date is string && data.date.size() <= 10 &&
+             data.userId == userId &&
+             data.content is string && data.content.size() <= 5000;
+    }
+
+    function isValidDailyReview(data, userId) {
+      return data.keys().hasAll(['date', 'userId', 'achievements', 'improvements', 'tomorrowPriority']) &&
+             data.date is string && data.date.size() <= 10 &&
+             data.userId == userId &&
+             data.achievements is string && data.achievements.size() <= 3000 &&
+             data.improvements is string && data.improvements.size() <= 3000 &&
+             data.tomorrowPriority is string && data.tomorrowPriority.size() <= 1000;
+    }
+
+    // User subcollection rules
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      match /tasks/{taskId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(taskId) && isValidTask(incoming(), userId);
+        allow delete: if isOwner(userId) && isValidId(taskId);
+      }
+
+      match /habits/{habitId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(habitId) && isValidHabit(incoming(), userId);
+        allow delete: if isOwner(userId) && isValidId(habitId);
+      }
+
+      match /timeBlocks/{timeBlockId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(timeBlockId) && isValidTimeBlock(incoming(), userId);
+        allow delete: if isOwner(userId) && isValidId(timeBlockId);
+      }
+
+      match /notes/{dateId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(dateId) && isValidDailyNote(incoming(), userId);
+        allow delete: if isOwner(userId) && isValidId(dateId);
+      }
+
+      match /reviews/{dateId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(dateId) && isValidDailyReview(incoming(), userId);
+        allow delete: if isOwner(userId) && isValidId(dateId);
+      }
+    }
+  }
+}

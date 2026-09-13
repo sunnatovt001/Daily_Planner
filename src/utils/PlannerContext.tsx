@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Task, Habit, TimeBlock, DailyNote, DailyReview } from '../types';
 import { getTodayDateString } from './dateUtils';
-import { auth, db, loginWithGoogle, logoutUser, handleFirestoreError, OperationType } from '../firebase';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { db, handleFirestoreError, OperationType } from '../firebase';
 import { collection, doc, onSnapshot, setDoc, deleteDoc } from 'firebase/firestore';
 
 interface PlannerContextType {
@@ -18,20 +17,15 @@ interface PlannerContextType {
   setReviews: React.Dispatch<React.SetStateAction<DailyReview[]>>;
   isDarkMode: boolean;
   toggleTheme: () => void;
-  // Firebase Auth & Cloud Sync
-  user: User | null;
-  loadingAuth: boolean;
-  loginWithGoogle: () => Promise<User>;
-  logout: () => Promise<void>;
   isSynced: boolean;
 }
 
 const PlannerContext = createContext<PlannerContextType | undefined>(undefined);
 
+const MAIN_USER_ID = 'main';
+
 export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const todayStr = getTodayDateString();
-  const [user, setUser] = useState<User | null>(null);
-  const [loadingAuth, setLoadingAuth] = useState(true);
   const [isSynced, setIsSynced] = useState(false);
 
   const [tasks, setTasksState] = useState<Task[]>([]);
@@ -41,49 +35,9 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [reviews, setReviewsState] = useState<DailyReview[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
-  // Initialize Auth
+  // Real-time Firestore Sync with onSnapshot
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoadingAuth(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // Set default initial state for guest mode when user is null
-  useEffect(() => {
-    if (!user && !loadingAuth) {
-      if (tasks.length === 0) {
-        setTasksState([
-          { id: 't1', title: 'Loyihani yakunlash', date: todayStr, time: '10:00', priority: 'high', category: 'work', completed: false, isTopPriority: true, createdAt: Date.now() },
-          { id: 't2', title: 'Kitob mutolaa qilish', date: todayStr, time: '19:00', priority: 'medium', category: 'study', completed: false, createdAt: Date.now() },
-          { id: 't3', title: 'Sport bilan shug\'ullanish', date: todayStr, time: '18:00', priority: 'high', category: 'health', completed: false, isTopPriority: true, createdAt: Date.now() }
-        ]);
-      }
-      if (habits.length === 0) {
-        setHabitsState([
-          { id: 'h1', name: 'Suv ichish (2L)', icon: '💧', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() },
-          { id: 'h2', name: 'Kunlik kitobxonlik', icon: '📚', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() }
-        ]);
-      }
-      if (timeBlocks.length === 0) {
-        setTimeBlocksState([
-          { id: 'tb1', date: todayStr, startTime: '09:00', endTime: '11:00', title: 'Chuqur ish vaqti', category: 'work' },
-          { id: 'tb2', date: todayStr, startTime: '13:00', endTime: '14:00', title: 'Tushlik tanaffusi', category: 'other' }
-        ]);
-      }
-    }
-  }, [user, loadingAuth, todayStr]);
-
-  // Real-time Firestore Sync with onSnapshot when user is active
-  useEffect(() => {
-    if (!user) {
-      setIsSynced(false);
-      return;
-    }
-
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     let isInitialTasks = true;
     let isInitialHabits = true;
     let isInitialBlocks = true;
@@ -240,12 +194,11 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
       unsubNotes();
       unsubReviews();
     };
-  }, [user, todayStr]);
+  }, [todayStr]);
 
   // Sync helpers to perform exact diff writes/deletes to Firestore
   const syncTasksToFirestore = async (nextTasks: Task[], prevTasks: Task[]) => {
-    if (!user) return;
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     const currentMap = new Map(prevTasks.map(t => [t.id, t]));
     const nextMap = new Map(nextTasks.map(t => [t.id, t]));
 
@@ -287,8 +240,7 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const syncHabitsToFirestore = async (nextHabits: Habit[], prevHabits: Habit[]) => {
-    if (!user) return;
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     const currentMap = new Map(prevHabits.map(h => [h.id, h]));
     const nextMap = new Map(nextHabits.map(h => [h.id, h]));
 
@@ -327,8 +279,7 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const syncTimeBlocksToFirestore = async (nextBlocks: TimeBlock[], prevBlocks: TimeBlock[]) => {
-    if (!user) return;
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     const currentMap = new Map(prevBlocks.map(b => [b.id, b]));
     const nextMap = new Map(nextBlocks.map(b => [b.id, b]));
 
@@ -366,8 +317,7 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const syncNotesToFirestore = async (nextNotes: DailyNote[], prevNotes: DailyNote[]) => {
-    if (!user) return;
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     const currentMap = new Map(prevNotes.map(n => [n.date, n]));
     const nextMap = new Map(nextNotes.map(n => [n.date, n]));
 
@@ -400,8 +350,7 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const syncReviewsToFirestore = async (nextReviews: DailyReview[], prevReviews: DailyReview[]) => {
-    if (!user) return;
-    const uid = user.uid;
+    const uid = MAIN_USER_ID;
     const currentMap = new Map(prevReviews.map(r => [r.date, r]));
     const nextMap = new Map(nextReviews.map(r => [r.date, r]));
 
@@ -490,9 +439,6 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
       notes, setNotes,
       reviews, setReviews,
       isDarkMode, toggleTheme,
-      user, loadingAuth,
-      loginWithGoogle,
-      logout: logoutUser,
       isSynced
     }}>
       {children}

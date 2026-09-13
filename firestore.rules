@@ -77,38 +77,38 @@ service cloud.firestore {
              data.tomorrowPriority is string && data.tomorrowPriority.size() <= 1000;
     }
 
-    // User subcollection rules
+    // User subcollection rules (Supports both Google Auth UID & Sync Code Keys)
     match /users/{userId} {
-      allow read, write: if isOwner(userId);
+      allow read, write: if isValidId(userId);
 
       match /tasks/{taskId} {
-        allow read: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(taskId) && isValidTask(incoming(), userId);
-        allow delete: if isOwner(userId) && isValidId(taskId);
+        allow read: if isValidId(userId);
+        allow create, update: if isValidId(userId) && isValidId(taskId) && isValidTask(incoming(), userId);
+        allow delete: if isValidId(userId) && isValidId(taskId);
       }
 
       match /habits/{habitId} {
-        allow read: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(habitId) && isValidHabit(incoming(), userId);
-        allow delete: if isOwner(userId) && isValidId(habitId);
+        allow read: if isValidId(userId);
+        allow create, update: if isValidId(userId) && isValidId(habitId) && isValidHabit(incoming(), userId);
+        allow delete: if isValidId(userId) && isValidId(habitId);
       }
 
       match /timeBlocks/{timeBlockId} {
-        allow read: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(timeBlockId) && isValidTimeBlock(incoming(), userId);
-        allow delete: if isOwner(userId) && isValidId(timeBlockId);
+        allow read: if isValidId(userId);
+        allow create, update: if isValidId(userId) && isValidId(timeBlockId) && isValidTimeBlock(incoming(), userId);
+        allow delete: if isValidId(userId) && isValidId(timeBlockId);
       }
 
       match /notes/{dateId} {
-        allow read: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(dateId) && isValidDailyNote(incoming(), userId);
-        allow delete: if isOwner(userId) && isValidId(dateId);
+        allow read: if isValidId(userId);
+        allow create, update: if isValidId(userId) && isValidId(dateId) && isValidDailyNote(incoming(), userId);
+        allow delete: if isValidId(userId) && isValidId(dateId);
       }
 
       match /reviews/{dateId} {
-        allow read: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(dateId) && isValidDailyReview(incoming(), userId);
-        allow delete: if isOwner(userId) && isValidId(dateId);
+        allow read: if isValidId(userId);
+        allow create, update: if isValidId(userId) && isValidId(dateId) && isValidDailyReview(incoming(), userId);
+        allow delete: if isValidId(userId) && isValidId(dateId);
       }
     }
   }

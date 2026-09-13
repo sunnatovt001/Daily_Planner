@@ -60,14 +60,14 @@ export default function ScheduleView() {
           />
           <button 
             onClick={addBlock}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-900 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
           >
             <Plus size={16} /> Qo'shish
           </button>
         </div>
       </header>
 
-      <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
         <div className="relative" style={{ height: `${18 * 80}px` }}>
           {/* Grid lines */}
           {hours.map((hour, idx) => (
@@ -83,7 +83,7 @@ export default function ScheduleView() {
             {displayBlocks.map(block => (
               <div 
                 key={block.id}
-                className="absolute left-2 right-2 bg-blue-100 dark:bg-blue-900/40 border-l-4 border-blue-600 rounded-md p-2 text-blue-900 dark:text-blue-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                className="absolute left-2 right-2 bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 border-l-4 border-l-stone-900 dark:border-l-white rounded-md p-2 text-stone-900 dark:text-stone-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                 style={getPositionStyles(block.startTime, block.endTime)}
                 onClick={() => {
                   if (confirm("Bu blokni o'chirmoqchimisiz?")) {
@@ -91,8 +91,8 @@ export default function ScheduleView() {
                   }
                 }}
               >
-                <div className="text-xs font-bold mb-0.5">{block.startTime} - {block.endTime}</div>
-                <div className="text-sm font-medium leading-tight truncate">{block.title}</div>
+                <div className="text-[10px] uppercase font-bold tracking-wider text-stone-500 mb-0.5">{block.startTime} - {block.endTime}</div>
+                <div className="text-sm font-semibold leading-tight truncate">{block.title}</div>
               </div>
             ))}
           </div>
@@ -117,7 +117,7 @@ function CurrentTimeLine() {
   const top = (h - 6) * 80 + (m / 60) * 80;
   
   return (
-    <div className="absolute left-16 right-0 border-t-2 border-red-500 z-10 pointer-events-none" style={{ top: `${top}px` }}>
+    <div className="absolute left-16 right-0 border-t border-red-500 z-10 pointer-events-none" style={{ top: `${top}px` }}>
       <div className="absolute -left-1.5 -top-1.5 w-3 h-3 rounded-full bg-red-500"></div>
     </div>
   );

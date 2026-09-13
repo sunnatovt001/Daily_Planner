@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { usePlanner } from '../utils/PlannerContext';
 import { getTodayDateString, getGreeting, getDayOfWeek, formatDateDisplay } from '../utils/dateUtils';
 import { CheckCircle2, Circle, Star, ArrowRight, Play } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { sounds } from '../utils/audio';
 import ReviewModal from './ReviewModal';
 
@@ -29,7 +28,6 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
         const newlyCompleted = !t.completed;
         if (newlyCompleted) {
           sounds.playCompleteSound();
-          confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
         }
         return { ...t, completed: newlyCompleted };
       }
@@ -61,7 +59,7 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               />
               <path
-                className="text-blue-600 transition-all duration-1000 ease-out"
+                className="text-stone-900 dark:text-white transition-all duration-1000 ease-out"
                 strokeWidth="3"
                 strokeDasharray={`${completionPercentage}, 100`}
                 strokeLinecap="round"
@@ -82,10 +80,9 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           {/* Top Priorities */}
-          <section className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
+          <section className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
-                <Star className="text-amber-500 fill-amber-500" size={20} />
                 Asosiy maqsadlar (Top 3)
               </h2>
             </div>
@@ -93,17 +90,17 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
             {topPriorities.length === 0 ? (
               <div className="text-center py-8 text-stone-500">
                 <p>Bugun uchun asosiy maqsadlar belgilanmagan.</p>
-                <button onClick={onQuickAdd} className="text-blue-600 font-medium mt-2 hover:underline">Vazifa qo'shish</button>
+                <button onClick={onQuickAdd} className="text-stone-900 dark:text-white font-medium mt-2 hover:underline">Vazifa qo'shish</button>
               </div>
             ) : (
               <div className="space-y-3">
                 {topPriorities.map(task => (
-                  <div key={task.id} className={`flex items-center p-4 rounded-2xl border transition-colors ${task.completed ? 'bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-700 shadow-sm'}`}>
+                  <div key={task.id} className={`flex items-center p-4 rounded-xl border transition-colors ${task.completed ? 'bg-stone-50 dark:bg-stone-950 border-stone-200 dark:border-stone-800' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-700 shadow-sm'}`}>
                     <button onClick={() => toggleTask(task.id)} className="mr-4">
                       {task.completed ? (
-                        <CheckCircle2 className="text-amber-500" size={24} />
+                        <CheckCircle2 className="text-stone-900 dark:text-white" size={24} />
                       ) : (
-                        <Circle className="text-stone-300 dark:text-stone-600 hover:text-amber-400 transition-colors" size={24} />
+                        <Circle className="text-stone-300 dark:text-stone-600 hover:text-stone-900 dark:hover:text-white transition-colors" size={24} />
                       )}
                     </button>
                     <div className="flex-1">
@@ -123,7 +120,7 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Bugungi barcha vazifalar</h2>
             </div>
-            <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
+            <div className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
                {todayTasks.filter(t => !t.isTopPriority).length === 0 ? (
                  <p className="text-stone-500 text-center py-4">Boshqa vazifalar yo'q</p>
                ) : (
@@ -132,7 +129,7 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
                      <div key={task.id} className="flex items-center justify-between py-2 border-b border-stone-100 dark:border-stone-800 last:border-0">
                         <div className="flex items-center gap-3">
                           <button onClick={() => toggleTask(task.id)}>
-                            {task.completed ? <CheckCircle2 size={18} className="text-blue-500" /> : <Circle size={18} className="text-stone-300" />}
+                            {task.completed ? <CheckCircle2 size={18} className="text-stone-900 dark:text-white" /> : <Circle size={18} className="text-stone-300 dark:text-stone-600" />}
                           </button>
                           <span className={`${task.completed ? 'line-through text-stone-400' : ''}`}>{task.title}</span>
                         </div>
@@ -146,17 +143,17 @@ export default function Dashboard({ onQuickAdd }: DashboardProps) {
 
         <div className="space-y-6">
           {/* Quick Schedule Preview */}
-          <section className="bg-blue-600 text-white rounded-3xl p-6 shadow-md">
-            <h2 className="text-lg font-bold mb-4 opacity-90">Kun tartibi</h2>
+          <section className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-6 shadow-sm">
+            <h2 className="text-lg font-bold mb-4">Kun tartibi</h2>
             {timeBlocks.filter(tb => tb.date === todayStr).length === 0 ? (
-              <p className="text-blue-200 text-sm">Vaqt bloklari kiritilmagan.</p>
+              <p className="text-stone-500 text-sm">Vaqt bloklari kiritilmagan.</p>
             ) : (
               <div className="space-y-4">
                 {timeBlocks.filter(tb => tb.date === todayStr).sort((a,b) => a.startTime.localeCompare(b.startTime)).slice(0,4).map(block => (
                   <div key={block.id} className="flex items-start gap-3">
-                    <div className="w-12 text-sm font-medium opacity-70 pt-0.5">{block.startTime}</div>
-                    <div className="flex-1 bg-white/10 rounded-xl p-3 backdrop-blur-sm">
-                      <p className="font-medium text-sm leading-tight">{block.title}</p>
+                    <div className="w-12 text-sm font-medium text-stone-500 pt-0.5">{block.startTime}</div>
+                    <div className="flex-1 bg-stone-50 dark:bg-stone-950 border border-stone-100 dark:border-stone-800 rounded-lg p-3">
+                      <p className="font-medium text-sm leading-tight text-stone-900 dark:text-white">{block.title}</p>
                     </div>
                   </div>
                 ))}

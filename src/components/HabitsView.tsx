@@ -3,7 +3,6 @@ import { usePlanner } from '../utils/PlannerContext';
 import { getTodayDateString } from '../utils/dateUtils';
 import { Check, Flame, Plus, Trophy, Trash2 } from 'lucide-react';
 import { Habit } from '../types';
-import confetti from 'canvas-confetti';
 import { sounds } from '../utils/audio';
 
 export default function HabitsView() {
@@ -29,7 +28,6 @@ export default function HabitsView() {
           newDates = [...(h.completedDates || []), todayStr];
           streak += 1;
           sounds.playCompleteSound();
-          confetti({ particleCount: 30, spread: 50 });
         }
         
         return {
@@ -77,23 +75,23 @@ export default function HabitsView() {
         </div>
         <button 
           onClick={() => setIsAddMode(!isAddMode)}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          className="flex items-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-900 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
         >
           {isAddMode ? 'Yopish' : <><Plus size={16} /> Yangi odat</>}
         </button>
       </header>
 
       {isAddMode && (
-        <form onSubmit={addHabit} className="bg-white dark:bg-stone-900 p-6 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-sm mb-8 animate-in slide-in-from-top-4">
+        <form onSubmit={addHabit} className="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm mb-8 animate-in slide-in-from-top-4">
           <h3 className="text-lg font-bold mb-4">Yangi odat yaratish</h3>
           <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex gap-2 p-2 bg-stone-50 dark:bg-stone-950 rounded-xl overflow-x-auto">
+            <div className="flex gap-2 p-2 bg-stone-50 dark:bg-stone-950 rounded-xl overflow-x-auto border border-stone-200 dark:border-stone-800">
               {icons.map(icon => (
                 <button
                   key={icon}
                   type="button"
                   onClick={() => setNewHabitIcon(icon)}
-                  className={`w-10 h-10 flex-shrink-0 rounded-lg text-xl transition-colors ${newHabitIcon === icon ? 'bg-blue-100 dark:bg-blue-900 border-2 border-blue-500' : 'hover:bg-stone-200 dark:hover:bg-stone-800 border-2 border-transparent'}`}
+                  className={`w-10 h-10 flex-shrink-0 rounded-lg text-xl transition-colors ${newHabitIcon === icon ? 'bg-stone-200 dark:bg-stone-800 border-2 border-stone-900 dark:border-white' : 'hover:bg-stone-200 dark:hover:bg-stone-800 border-2 border-transparent'}`}
                 >
                   {icon}
                 </button>
@@ -104,10 +102,10 @@ export default function HabitsView() {
               placeholder="Odat nomi (masalan: Ertalabki yugurish)"
               value={newHabitName}
               onChange={e => setNewHabitName(e.target.value)}
-              className="flex-1 bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-4 py-2 outline-none focus:border-blue-500"
+              className="flex-1 bg-transparent border border-stone-200 dark:border-stone-800 rounded-xl px-4 py-2 outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
               autoFocus
             />
-            <button type="submit" disabled={!newHabitName.trim()} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-6 py-2 rounded-xl font-medium transition-colors">
+            <button type="submit" disabled={!newHabitName.trim()} className="bg-stone-900 dark:bg-white text-white dark:text-stone-900 hover:opacity-90 disabled:opacity-50 px-6 py-2 rounded-xl font-medium transition-opacity">
               Saqlash
             </button>
           </div>
@@ -119,38 +117,43 @@ export default function HabitsView() {
           const isCompletedToday = (habit.completedDates || []).includes(todayStr);
           
           return (
-            <div key={habit.id} className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm relative group overflow-hidden">
+            <div key={habit.id} className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm relative group overflow-hidden">
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => deleteHabit(habit.id)} className="text-stone-400 hover:text-red-500 p-1 bg-stone-100 dark:bg-stone-800 rounded-lg">
+                <button onClick={() => deleteHabit(habit.id)} className="text-stone-400 hover:text-stone-900 dark:hover:text-white p-1 rounded-lg">
                   <Trash2 size={16} />
                 </button>
               </div>
 
               <div className="flex flex-col items-center text-center">
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-4 transition-transform ${isCompletedToday ? 'bg-blue-100 dark:bg-blue-900/30 scale-110' : 'bg-stone-100 dark:bg-stone-800'}`}>
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center text-2xl mb-4 border border-stone-200 dark:border-stone-700 transition-transform ${isCompletedToday ? 'bg-stone-100 dark:bg-stone-800 scale-110' : 'bg-transparent'}`}>
                   {habit.icon}
                 </div>
                 <h3 className="text-lg font-bold mb-1">{habit.name}</h3>
                 
-                <div className="flex gap-4 mt-4 w-full">
-                  <div className="flex-1 bg-stone-50 dark:bg-stone-950 rounded-xl p-3 flex flex-col items-center justify-center">
-                    <Flame size={20} className={(habit.currentStreak || 0) > 0 ? "text-amber-500 mb-1" : "text-stone-400 mb-1"} />
-                    <span className="text-xs font-medium text-stone-500">Ketma-ketlik</span>
+                <div className="flex gap-8 mt-4 w-full justify-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="flex items-center gap-1.5 text-stone-500 mb-1">
+                      <Flame size={14} className={(habit.currentStreak || 0) > 0 ? "text-stone-900 dark:text-white" : "text-stone-400"} />
+                      <span className="text-xs font-semibold uppercase tracking-wider">Ketma-ket</span>
+                    </div>
                     <span className="text-lg font-bold">{habit.currentStreak || 0}</span>
                   </div>
-                  <div className="flex-1 bg-stone-50 dark:bg-stone-950 rounded-xl p-3 flex flex-col items-center justify-center">
-                    <Trophy size={20} className="text-yellow-500 mb-1" />
-                    <span className="text-xs font-medium text-stone-500">Rekord</span>
+                  <div className="w-px bg-stone-200 dark:bg-stone-800"></div>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="flex items-center gap-1.5 text-stone-500 mb-1">
+                      <Trophy size={14} className="text-stone-400" />
+                      <span className="text-xs font-semibold uppercase tracking-wider">Rekord</span>
+                    </div>
                     <span className="text-lg font-bold">{habit.bestStreak || 0}</span>
                   </div>
                 </div>
 
                 <button 
                   onClick={() => toggleHabit(habit.id)}
-                  className={`mt-6 w-full py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all ${
+                  className={`mt-6 w-full py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition-all ${
                     isCompletedToday 
-                      ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                      : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
+                      ? 'bg-stone-900 dark:bg-white text-white dark:text-stone-900' 
+                      : 'bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800'
                   }`}
                 >
                   {isCompletedToday ? (
@@ -166,10 +169,10 @@ export default function HabitsView() {
       </div>
       
       {habits.length === 0 && !isAddMode && (
-        <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 border-dashed">
-          <Flame size={48} className="mx-auto text-stone-300 dark:text-stone-700 mb-4" />
-          <h3 className="text-xl font-bold mb-2">Odatlar yo'q</h3>
-          <p className="text-stone-500">Yangi foydali odatlarni qo'shing va ularni kuzatib boring.</p>
+        <div className="text-center py-20 bg-transparent rounded-2xl border border-stone-200 dark:border-stone-800 border-dashed">
+          <Flame size={40} className="mx-auto text-stone-300 dark:text-stone-700 mb-4" strokeWidth={1.5} />
+          <h3 className="text-lg font-bold mb-1">Odatlar yo'q</h3>
+          <p className="text-sm text-stone-500">Yangi foydali odatlarni qo'shing va ularni kuzatib boring.</p>
         </div>
       )}
     </div>

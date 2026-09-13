@@ -73,9 +73,9 @@ export default function QuickAddModal({ isOpen, onClose }: QuickAddModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-stone-900 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden border border-stone-200 dark:border-stone-800 animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between p-6 border-b border-stone-100 dark:border-stone-800">
-          <h2 className="text-xl font-bold">Yangi vazifa</h2>
+      <div className="bg-white dark:bg-stone-900 w-full max-w-lg rounded-2xl shadow-xl overflow-hidden border border-stone-200 dark:border-stone-800 animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between p-5 border-b border-stone-100 dark:border-stone-800">
+          <h2 className="text-lg font-bold">Yangi vazifa</h2>
           <button onClick={onClose} className="p-2 text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
             <X size={20} />
           </button>
@@ -96,32 +96,32 @@ export default function QuickAddModal({ isOpen, onClose }: QuickAddModalProps) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-stone-500 uppercase">Sana</label>
+              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Sana</label>
               <input 
                 type="date" 
                 value={date}
                 onChange={e => setDate(e.target.value)}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-stone-500 uppercase">Vaqt (ixtiyoriy)</label>
+              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Vaqt (ixtiyoriy)</label>
               <input 
                 type="time" 
                 value={time}
                 onChange={e => setTime(e.target.value)}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-stone-500 uppercase">Muhimlik darajasi</label>
+              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Muhimlik darajasi</label>
               <select 
                 value={priority}
                 onChange={e => setPriority(e.target.value as Priority)}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
               >
                 <option value="high">Yuqori</option>
                 <option value="medium">O'rta</option>
@@ -129,11 +129,11 @@ export default function QuickAddModal({ isOpen, onClose }: QuickAddModalProps) {
               </select>
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-stone-500 uppercase">Toifa</label>
+              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Toifa</label>
               <select 
                 value={category}
                 onChange={e => setCategory(e.target.value as TaskCategory)}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
               >
                 <option value="ish">Ish</option>
                 <option value="oqish">O'qish</option>
@@ -146,40 +146,40 @@ export default function QuickAddModal({ isOpen, onClose }: QuickAddModalProps) {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-stone-500 uppercase">Qaydlar (ixtiyoriy)</label>
+            <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Qaydlar (ixtiyoriy)</label>
             <textarea 
               rows={2}
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none"
+              className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow resize-none"
               placeholder="Qo'shimcha ma'lumotlar..."
             />
           </div>
           
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-2 cursor-pointer pt-2">
             <input 
               type="checkbox" 
               checked={isTopPriority}
               onChange={e => setIsTopPriority(e.target.checked)}
-              className="w-4 h-4 text-blue-600 rounded border-stone-300 focus:ring-blue-500"
+              className="w-4 h-4 text-stone-900 bg-transparent border-stone-300 rounded focus:ring-stone-900 dark:focus:ring-white"
             />
             <span className="text-sm font-medium">Asosiy maqsadlarga qo'shish (Top 3)</span>
           </label>
 
-          <div className="pt-4 flex items-center justify-between">
-            <span className="text-xs text-stone-400 hidden sm:inline-block">Saqlash uchun <kbd className="font-mono bg-stone-100 dark:bg-stone-800 px-1 rounded">Ctrl+Enter</kbd> bosing</span>
+          <div className="pt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800">
+            <span className="text-xs text-stone-400 hidden sm:inline-block">Saqlash uchun <kbd className="font-mono bg-stone-100 dark:bg-stone-800 px-1 py-0.5 rounded text-[10px]">Ctrl+Enter</kbd> bosing</span>
             <div className="flex gap-3 w-full sm:w-auto">
               <button 
                 type="button" 
                 onClick={onClose}
-                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                className="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 Bekor qilish
               </button>
               <button 
                 type="submit"
                 disabled={!title.trim()}
-                className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-50"
+                className="flex-1 sm:flex-none px-5 py-2 rounded-lg text-sm font-medium bg-stone-900 dark:bg-white text-white dark:text-stone-900 hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 Saqlash
               </button>

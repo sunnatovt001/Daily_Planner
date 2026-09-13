@@ -36,21 +36,21 @@ export default function StatisticsView() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
-          <p className="text-stone-500 font-medium mb-2">Bajarilgan vazifalar</p>
-          <p className="text-5xl font-black text-stone-900 dark:text-white">{totalCompleted}</p>
+        <div className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
+          <p className="text-xs uppercase tracking-wider text-stone-500 font-bold mb-2">Bajarilgan vazifalar</p>
+          <p className="text-4xl font-black text-stone-900 dark:text-white">{totalCompleted}</p>
         </div>
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
-          <p className="text-stone-500 font-medium mb-2">Mahsuldorlik</p>
-          <p className="text-5xl font-black text-blue-600">{completionRate}%</p>
+        <div className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
+          <p className="text-xs uppercase tracking-wider text-stone-500 font-bold mb-2">Mahsuldorlik</p>
+          <p className="text-4xl font-black text-stone-900 dark:text-white">{completionRate}%</p>
         </div>
-        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
-          <p className="text-stone-500 font-medium mb-2">Faol odatlar</p>
-          <p className="text-5xl font-black text-amber-500">{habits.filter(h => (h.currentStreak || 0) > 0).length}</p>
+        <div className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm text-center">
+          <p className="text-xs uppercase tracking-wider text-stone-500 font-bold mb-2">Faol odatlar</p>
+          <p className="text-4xl font-black text-stone-900 dark:text-white">{habits.filter(h => (h.currentStreak || 0) > 0).length}</p>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
+      <div className="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm">
         <h3 className="text-lg font-bold mb-6">Toifalar bo'yicha bajarilgan vazifalar</h3>
         
         {categoryData.length === 0 ? (

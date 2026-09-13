@@ -30,7 +30,7 @@ function AppContent() {
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-stone-900 border-r border-stone-200 dark:border-stone-800 flex flex-col z-40">
         <div className="p-6 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl leading-none">
+          <div className="w-8 h-8 rounded-lg bg-stone-900 dark:bg-white flex items-center justify-center text-white dark:text-stone-900 font-bold text-xl leading-none">
             D
           </div>
           <h1 className="font-bold text-xl tracking-tight">Daily Planner</h1>
@@ -43,8 +43,8 @@ function AppContent() {
               onClick={() => setActiveTab(item.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 activeTab === item.id
-                  ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                  : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-200'
+                  ? 'bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-white'
+                  : 'text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/50 hover:text-stone-900 dark:hover:text-stone-200'
               }`}
             >
               {item.icon}
@@ -56,7 +56,7 @@ function AppContent() {
         <div className="p-4 border-t border-stone-200 dark:border-stone-800 space-y-2">
           <button
             onClick={() => setIsQuickAddOpen(true)}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
+            className="w-full flex items-center justify-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-900 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
           >
             <Plus size={18} />
             Yangi vazifa

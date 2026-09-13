@@ -41,9 +41,9 @@ export default function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-stone-900 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-stone-200 dark:border-stone-800 animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
+      <div className="bg-white dark:bg-stone-900 w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden border border-stone-200 dark:border-stone-800 animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-stone-100 dark:border-stone-800 flex-shrink-0">
-          <h2 className="text-2xl font-bold">Kun yakuni</h2>
+          <h2 className="text-xl font-bold">Kun yakuni</h2>
           <button onClick={onClose} className="p-2 text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
             <X size={20} />
           </button>
@@ -51,64 +51,64 @@ export default function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
         <div className="p-6 overflow-y-auto flex-1">
           <div className="grid grid-cols-3 gap-4 mb-8">
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-2xl text-center">
-              <p className="text-3xl font-black text-blue-600 dark:text-blue-400">{completionPercentage}%</p>
-              <p className="text-xs font-bold text-blue-800 dark:text-blue-300 uppercase mt-1">Vazifalar</p>
+            <div className="border border-stone-200 dark:border-stone-800 p-4 rounded-xl text-center">
+              <p className="text-3xl font-black text-stone-900 dark:text-white">{completionPercentage}%</p>
+              <p className="text-[10px] font-bold text-stone-500 uppercase mt-1 tracking-wider">Vazifalar</p>
             </div>
-            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-2xl text-center">
-              <p className="text-3xl font-black text-amber-600 dark:text-amber-400">{completedHabits}</p>
-              <p className="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase mt-1">Odatlar</p>
+            <div className="border border-stone-200 dark:border-stone-800 p-4 rounded-xl text-center">
+              <p className="text-3xl font-black text-stone-900 dark:text-white">{completedHabits}</p>
+              <p className="text-[10px] font-bold text-stone-500 uppercase mt-1 tracking-wider">Odatlar</p>
             </div>
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl text-center">
-              <p className="text-3xl font-black text-emerald-600 dark:text-emerald-400">{timeBlocks.filter(tb => tb.date === todayStr).length}</p>
-              <p className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase mt-1">Vaqt bloklari</p>
+            <div className="border border-stone-200 dark:border-stone-800 p-4 rounded-xl text-center">
+              <p className="text-3xl font-black text-stone-900 dark:text-white">{timeBlocks.filter(tb => tb.date === todayStr).length}</p>
+              <p className="text-[10px] font-bold text-stone-500 uppercase mt-1 tracking-wider">Vaqt bloklari</p>
             </div>
           </div>
 
           {existingReview ? (
             <div className="space-y-6">
-              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-2xl">
-                <h4 className="text-sm font-bold text-stone-500 uppercase mb-2">Bugun erishilgan yutuqlar</h4>
-                <p className="font-medium">{existingReview.achievements || "Kiritilmagan"}</p>
+              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-xl border border-stone-100 dark:border-stone-800">
+                <h4 className="text-[10px] font-bold text-stone-500 uppercase mb-2 tracking-wider">Bugun erishilgan yutuqlar</h4>
+                <p className="font-medium text-sm text-stone-900 dark:text-stone-100">{existingReview.achievements || "Kiritilmagan"}</p>
               </div>
-              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-2xl">
-                <h4 className="text-sm font-bold text-stone-500 uppercase mb-2">Yaxshilash mumkin bo'lgan jihatlar</h4>
-                <p className="font-medium">{existingReview.improvements || "Kiritilmagan"}</p>
+              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-xl border border-stone-100 dark:border-stone-800">
+                <h4 className="text-[10px] font-bold text-stone-500 uppercase mb-2 tracking-wider">Yaxshilash mumkin bo'lgan jihatlar</h4>
+                <p className="font-medium text-sm text-stone-900 dark:text-stone-100">{existingReview.improvements || "Kiritilmagan"}</p>
               </div>
-              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-2xl">
-                <h4 className="text-sm font-bold text-stone-500 uppercase mb-2">Ertangi kun uchun eng muhim vazifa</h4>
-                <p className="font-medium text-blue-600 dark:text-blue-400">{existingReview.tomorrowPriority || "Kiritilmagan"}</p>
+              <div className="bg-stone-50 dark:bg-stone-950 p-5 rounded-xl border border-stone-100 dark:border-stone-800 border-l-4 border-l-stone-900 dark:border-l-white">
+                <h4 className="text-[10px] font-bold text-stone-500 uppercase mb-2 tracking-wider">Ertangi kun uchun eng muhim vazifa</h4>
+                <p className="font-bold text-sm text-stone-900 dark:text-white">{existingReview.tomorrowPriority || "Kiritilmagan"}</p>
               </div>
             </div>
           ) : (
             <form id="review-form" onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-bold">Bugun nimalarga erishdingiz?</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">Bugun nimalarga erishdingiz?</label>
                 <textarea 
                   rows={3}
                   value={achievements}
                   onChange={e => setAchievements(e.target.value)}
-                  className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 outline-none focus:border-blue-500 resize-none"
+                  className="w-full bg-transparent border border-stone-200 dark:border-stone-800 rounded-xl p-3 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow resize-none"
                   placeholder="Bugungi muvaffaqiyatlar..."
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-bold">Bugun nimani yaxshiroq qilish mumkin edi?</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">Bugun nimani yaxshiroq qilish mumkin edi?</label>
                 <textarea 
                   rows={3}
                   value={improvements}
                   onChange={e => setImprovements(e.target.value)}
-                  className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 outline-none focus:border-blue-500 resize-none"
+                  className="w-full bg-transparent border border-stone-200 dark:border-stone-800 rounded-xl p-3 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow resize-none"
                   placeholder="Kamchiliklar va xatolar..."
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-bold">Ertangi kun uchun eng muhim vazifa nima?</label>
+                <label className="text-xs font-bold uppercase tracking-wider text-stone-500">Ertangi kun uchun eng muhim vazifa nima?</label>
                 <input 
                   type="text"
                   value={tomorrowPriority}
                   onChange={e => setTomorrowPriority(e.target.value)}
-                  className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 outline-none focus:border-blue-500"
+                  className="w-full bg-transparent border border-stone-200 dark:border-stone-800 rounded-xl p-3 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
                   placeholder="Bitta asosiy maqsadni yozing..."
                 />
               </div>
@@ -121,7 +121,7 @@ export default function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
             <button 
               type="submit" 
               form="review-form"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-colors"
+              className="w-full bg-stone-900 dark:bg-white text-white dark:text-stone-900 font-bold py-3 rounded-xl hover:opacity-90 transition-opacity"
             >
               Saqlash va kunni yakunlash
             </button>

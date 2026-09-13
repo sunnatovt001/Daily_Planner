@@ -28,11 +28,14 @@ export default function TasksView() {
     }
   };
 
-  const getPriorityColor = (priority: Priority) => {
+  const getPriorityIndicator = (priority: Priority) => {
     switch (priority) {
-      case 'high': return 'text-red-500 bg-red-50 dark:bg-red-900/20';
-      case 'medium': return 'text-amber-500 bg-amber-50 dark:bg-amber-900/20';
-      case 'low': return 'text-blue-500 bg-blue-50 dark:bg-blue-900/20';
+      case 'high': 
+        return <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-red-500" /> <span className="text-xs font-medium text-stone-600 dark:text-stone-400">Yuqori</span></div>;
+      case 'medium': 
+        return <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-amber-500" /> <span className="text-xs font-medium text-stone-600 dark:text-stone-400">O'rta</span></div>;
+      case 'low': 
+        return <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-stone-400 dark:bg-stone-500" /> <span className="text-xs font-medium text-stone-600 dark:text-stone-400">Past</span></div>;
     }
   };
 
@@ -60,12 +63,12 @@ export default function TasksView() {
         </h3>
         <div className="space-y-3">
           {items.map(task => (
-            <div key={task.id} className={`group flex items-center p-4 rounded-2xl border transition-all ${task.completed ? 'bg-stone-50 dark:bg-stone-950/50 border-stone-200 dark:border-stone-800 opacity-70' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-700 shadow-sm hover:shadow-md'}`}>
-              <button onClick={() => toggleTask(task.id)} className="mr-4 flex-shrink-0">
+            <div key={task.id} className={`group flex items-center p-4 rounded-xl border transition-all ${task.completed ? 'bg-transparent border-stone-200 dark:border-stone-800 opacity-60' : 'bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md'}`}>
+              <button onClick={() => toggleTask(task.id)} className="mr-4 flex-shrink-0 text-stone-300 dark:text-stone-600 hover:text-stone-900 dark:hover:text-white transition-colors">
                 {task.completed ? (
-                  <CheckCircle2 className="text-blue-500" size={24} />
+                  <CheckCircle2 className="text-stone-900 dark:text-white" size={22} />
                 ) : (
-                  <Circle className="text-stone-300 dark:text-stone-600 hover:text-blue-500 transition-colors" size={24} />
+                  <Circle size={22} />
                 )}
               </button>
               
@@ -77,16 +80,13 @@ export default function TasksView() {
                   {task.notes && <p className="text-sm text-stone-500 truncate mt-0.5">{task.notes}</p>}
                 </div>
                 
-                <div className="flex items-center gap-3 flex-shrink-0">
+                <div className="flex items-center gap-4 flex-shrink-0">
                   {task.time && (
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-stone-500 bg-stone-100 dark:bg-stone-800 px-2.5 py-1 rounded-md">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-stone-500">
                       <Clock size={12} /> {task.time}
                     </div>
                   )}
-                  <div className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md ${getPriorityColor(task.priority)}`}>
-                    <AlertCircle size={12} /> 
-                    {task.priority === 'high' ? 'Yuqori' : task.priority === 'medium' ? 'O\'rta' : 'Past'}
-                  </div>
+                  {getPriorityIndicator(task.priority)}
                 </div>
               </div>
               
@@ -120,10 +120,10 @@ export default function TasksView() {
       </header>
 
       {displayTasks.length === 0 ? (
-        <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 border-dashed">
-          <CheckCircle2 size={48} className="mx-auto text-stone-300 dark:text-stone-700 mb-4" />
-          <h3 className="text-xl font-bold mb-2">Vazifalar yo'q</h3>
-          <p className="text-stone-500">Bu kun uchun hech qanday vazifa qo'shilmagan.</p>
+        <div className="text-center py-20 bg-transparent rounded-2xl border border-stone-200 dark:border-stone-800 border-dashed">
+          <CheckCircle2 size={40} className="mx-auto text-stone-300 dark:text-stone-700 mb-4" strokeWidth={1.5} />
+          <h3 className="text-lg font-bold mb-1">Vazifalar yo'q</h3>
+          <p className="text-sm text-stone-500">Bu kun uchun hech qanday vazifa qo'shilmagan.</p>
         </div>
       ) : (
         <div>

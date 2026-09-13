@@ -39,7 +39,7 @@ export default function CalendarView() {
         </button>
       </header>
 
-      <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
         {/* Days Header */}
         <div className="grid grid-cols-7 border-b border-stone-200 dark:border-stone-800">
           {['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'].map((d) => (
@@ -66,7 +66,7 @@ export default function CalendarView() {
               >
                 <div className="flex justify-between items-start mb-2">
                   <span className={`w-7 h-7 flex items-center justify-center text-sm font-medium rounded-full ${
-                    isToday ? 'bg-blue-600 text-white' : ''
+                    isToday ? 'bg-stone-900 dark:bg-white text-white dark:text-stone-900' : ''
                   }`}>
                     {format(date, 'd')}
                   </span>
@@ -79,10 +79,10 @@ export default function CalendarView() {
                   {dayTasks.slice(0, 3).map(task => (
                     <div 
                       key={task.id} 
-                      className={`text-xs px-2 py-1 rounded truncate font-medium ${
+                      className={`text-xs px-2 py-1 rounded truncate font-medium border border-stone-200 dark:border-stone-800 ${
                         task.completed 
-                          ? 'bg-stone-100 dark:bg-stone-800 text-stone-500 line-through' 
-                          : task.priority === 'high' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                          ? 'bg-transparent text-stone-400 line-through border-transparent' 
+                          : 'bg-stone-50 dark:bg-stone-950 text-stone-700 dark:text-stone-300'
                       }`}
                     >
                       {task.title}

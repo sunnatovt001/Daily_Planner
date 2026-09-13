@@ -1,0 +1,7 @@
+{
+  "name": "Kunlik Reja",
+  "description": "Shaxsiy kunlik rejalashtirish, vaqt bloklari, vazifalar va odatlarni boshqarish ilovasi",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

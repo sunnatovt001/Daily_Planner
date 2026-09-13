@@ -72,116 +72,116 @@ export default function QuickAddModal({ isOpen, onClose }: QuickAddModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-stone-900 w-full max-w-lg rounded-2xl shadow-xl overflow-hidden border border-stone-200 dark:border-stone-800 animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between p-5 border-b border-stone-100 dark:border-stone-800">
-          <h2 className="text-lg font-bold">Yangi vazifa</h2>
-          <button onClick={onClose} className="p-2 text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors rounded-full hover:bg-stone-100 dark:hover:bg-stone-800">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl animate-in fade-in duration-200">
+      <div className="glass-card w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border border-white/10">
+        <div className="flex items-center justify-between p-5 border-b border-white/10">
+          <h2 className="text-lg font-bold text-white">New Task</h2>
+          <button onClick={onClose} className="p-2 text-stone-400 hover:text-white transition-colors rounded-full hover:bg-white/10">
             <X size={20} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="p-5 md:p-6 space-y-4 md:space-y-5">
           <div>
             <input 
               ref={inputRef}
               type="text" 
-              placeholder="Vazifa nomi..."
+              placeholder="Task name..."
               value={title}
               onChange={e => setTitle(e.target.value)}
-              className="w-full text-lg font-medium bg-transparent border-b border-stone-200 dark:border-stone-700 pb-2 focus:border-blue-500 outline-none placeholder-stone-400"
+              className="w-full text-lg font-semibold bg-transparent border-b border-white/10 pb-2.5 focus:border-white outline-none text-white placeholder:text-stone-500"
               autoFocus
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Sana</label>
+              <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Date</label>
               <input 
                 type="date" 
                 value={date}
                 onChange={e => setDate(e.target.value)}
-                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
+                className="w-full glass-input rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-white transition-all text-white"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Vaqt (ixtiyoriy)</label>
+              <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Time (Optional)</label>
               <input 
                 type="time" 
                 value={time}
                 onChange={e => setTime(e.target.value)}
-                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
+                className="w-full glass-input rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-white transition-all text-white"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Muhimlik darajasi</label>
+              <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Priority</label>
               <select 
                 value={priority}
                 onChange={e => setPriority(e.target.value as Priority)}
-                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
+                className="w-full glass-input rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-white transition-all text-white"
               >
-                <option value="high">Yuqori</option>
-                <option value="medium">O'rta</option>
-                <option value="low">Past</option>
+                <option value="high" className="bg-stone-900 text-white">High</option>
+                <option value="medium" className="bg-stone-900 text-white">Medium</option>
+                <option value="low" className="bg-stone-900 text-white">Low</option>
               </select>
             </div>
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Toifa</label>
+              <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Category</label>
               <select 
                 value={category}
                 onChange={e => setCategory(e.target.value as TaskCategory)}
-                className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow"
+                className="w-full glass-input rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-white transition-all text-white"
               >
-                <option value="ish">Ish</option>
-                <option value="oqish">O'qish</option>
-                <option value="shaxsiy">Shaxsiy</option>
-                <option value="salomatlik">Salomatlik</option>
-                <option value="moliya">Moliya</option>
-                <option value="boshqa">Boshqa</option>
+                <option value="work" className="bg-stone-900 text-white">Work</option>
+                <option value="study" className="bg-stone-900 text-white">Study</option>
+                <option value="personal" className="bg-stone-900 text-white">Personal</option>
+                <option value="health" className="bg-stone-900 text-white">Health</option>
+                <option value="finance" className="bg-stone-900 text-white">Finance</option>
+                <option value="other" className="bg-stone-900 text-white">Other</option>
               </select>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider">Qaydlar (ixtiyoriy)</label>
+            <label className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Notes (Optional)</label>
             <textarea 
               rows={2}
               value={notes}
               onChange={e => setNotes(e.target.value)}
-              className="w-full bg-transparent border border-stone-200 dark:border-stone-700 rounded-lg px-3 py-2 text-sm outline-none focus:border-stone-900 dark:focus:border-white focus:ring-1 focus:ring-stone-900 dark:focus:ring-white transition-shadow resize-none"
-              placeholder="Qo'shimcha ma'lumotlar..."
+              className="w-full glass-input rounded-xl px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-white transition-all resize-none text-white placeholder:text-stone-500"
+              placeholder="Additional information..."
             />
           </div>
           
-          <label className="flex items-center gap-2 cursor-pointer pt-2">
+          <label className="flex items-center gap-2.5 cursor-pointer pt-1">
             <input 
               type="checkbox" 
               checked={isTopPriority}
               onChange={e => setIsTopPriority(e.target.checked)}
-              className="w-4 h-4 text-stone-900 bg-transparent border-stone-300 rounded focus:ring-stone-900 dark:focus:ring-white"
+              className="w-4 h-4 text-white bg-transparent border-stone-600 rounded focus:ring-white"
             />
-            <span className="text-sm font-medium">Asosiy maqsadlarga qo'shish (Top 3)</span>
+            <span className="text-xs md:text-sm font-semibold text-stone-300">Add to Top Priorities (Top 3)</span>
           </label>
 
-          <div className="pt-6 flex items-center justify-between border-t border-stone-100 dark:border-stone-800">
-            <span className="text-xs text-stone-400 hidden sm:inline-block">Saqlash uchun <kbd className="font-mono bg-stone-100 dark:bg-stone-800 px-1 py-0.5 rounded text-[10px]">Ctrl+Enter</kbd> bosing</span>
+          <div className="pt-4 flex items-center justify-between border-t border-white/10">
+            <span className="text-xs text-stone-400 hidden sm:inline-block">Press <kbd className="font-mono glass-pill px-1.5 py-0.5 rounded text-[10px] text-stone-300">Ctrl+Enter</kbd> to save</span>
             <div className="flex gap-3 w-full sm:w-auto">
               <button 
                 type="button" 
                 onClick={onClose}
-                className="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                className="flex-1 sm:flex-none px-4 py-2 rounded-xl text-sm font-semibold text-stone-300 hover:bg-white/10 transition-colors"
               >
-                Bekor qilish
+                Cancel
               </button>
               <button 
                 type="submit"
                 disabled={!title.trim()}
-                className="flex-1 sm:flex-none px-5 py-2 rounded-lg text-sm font-medium bg-stone-900 dark:bg-white text-white dark:text-stone-900 hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="flex-1 sm:flex-none px-5 py-2 rounded-xl text-sm font-bold glass-button-primary disabled:opacity-50 shadow-md active:scale-95"
               >
-                Saqlash
+                Save
               </button>
             </div>
           </div>

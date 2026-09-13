@@ -16,22 +16,22 @@ export const formatDateDisplay = (dateString: string) => {
   const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, '0')}-${String(tomorrow.getDate()).padStart(2, '0')}`;
   const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
   
-  if (dateString === todayStr) return 'Bugun';
-  if (dateString === tomorrowStr) return 'Ertaga';
-  if (dateString === yesterdayStr) return 'Kecha';
+  if (dateString === todayStr) return 'Today';
+  if (dateString === tomorrowStr) return 'Tomorrow';
+  if (dateString === yesterdayStr) return 'Yesterday';
   
-  return date.toLocaleDateString('uz-UZ', { month: 'long', day: 'numeric' });
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
 };
 
 export const getGreeting = () => {
   const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) return 'Xayrli tong!';
-  if (hour >= 12 && hour < 18) return 'Xayrli kun!';
-  return 'Xayrli kech!';
+  if (hour >= 5 && hour < 12) return 'Good morning!';
+  if (hour >= 12 && hour < 18) return 'Good afternoon!';
+  return 'Good evening!';
 };
 
 export const getDayOfWeek = (dateString: string) => {
   const date = new Date(dateString);
-  const days = ['Yakshanba', 'Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba'];
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   return days[date.getDay()];
 };

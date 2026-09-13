@@ -13,11 +13,11 @@ export default function ScheduleView() {
   const displayBlocks = useMemo(() => timeBlocks.filter(tb => tb.date === selectedDate), [timeBlocks, selectedDate]);
 
   const addBlock = () => {
-    const title = prompt('Vaqt bloki nomini kiriting:');
+    const title = prompt('Enter time block name:');
     if (!title) return;
-    const startTime = prompt('Boshlanish vaqti (Masalan 09:00):', '09:00');
+    const startTime = prompt('Start time (e.g. 09:00):', '09:00');
     if (!startTime) return;
-    const endTime = prompt('Tugash vaqti (Masalan 10:30):', '10:00');
+    const endTime = prompt('End time (e.g. 10:30):', '10:00');
     if (!endTime) return;
 
     setTimeBlocks([...timeBlocks, {
@@ -26,7 +26,7 @@ export default function ScheduleView() {
       startTime,
       endTime,
       date: selectedDate,
-      category: 'ish'
+      category: 'work'
     }]);
   };
 
@@ -45,54 +45,56 @@ export default function ScheduleView() {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto animate-in fade-in duration-500">
-      <header className="mb-8 flex items-center justify-between">
+    <div className="p-4 md:p-8 max-w-5xl mx-auto animate-in fade-in duration-500">
+      <header className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Kun tartibi</h1>
-          <p className="text-stone-500 mt-1">{formatDateDisplay(selectedDate)}</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">Schedule</h1>
+          <p className="text-stone-400 mt-0.5 text-sm">{formatDateDisplay(selectedDate)}</p>
         </div>
-        <div className="flex items-center gap-4">
-          <input 
-            type="date" 
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-            className="bg-stone-100 dark:bg-stone-900 border-none outline-none px-3 py-2 rounded-lg font-medium text-sm text-stone-700 dark:text-stone-300"
-          />
+        <div className="flex items-center gap-3">
+          <div className="glass-pill p-1">
+            <input 
+              type="date" 
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="bg-transparent border-none outline-none px-3 py-1.5 font-semibold text-sm text-stone-200 cursor-pointer"
+            />
+          </div>
           <button 
             onClick={addBlock}
-            className="flex items-center gap-2 bg-stone-900 hover:bg-stone-800 dark:bg-white dark:hover:bg-stone-100 text-white dark:text-stone-900 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            className="flex items-center gap-2 glass-button-primary px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 flex-shrink-0"
           >
-            <Plus size={16} /> Qo'shish
+            <Plus size={16} /> Add block
           </button>
         </div>
       </header>
 
-      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
-        <div className="relative" style={{ height: `${18 * 80}px` }}>
+      <div className="glass-card rounded-2xl shadow-xl overflow-hidden border border-white/10">
+        <div className="relative overflow-x-auto" style={{ height: `${18 * 80}px` }}>
           {/* Grid lines */}
           {hours.map((hour, idx) => (
-            <div key={hour} className="absolute w-full flex items-start border-t border-stone-100 dark:border-stone-800" style={{ top: `${idx * 80}px`, height: '80px' }}>
-              <div className="w-16 p-2 text-xs font-medium text-stone-400 text-right">
+            <div key={hour} className="absolute w-full flex items-start border-t border-white/10" style={{ top: `${idx * 80}px`, height: '80px' }}>
+              <div className="w-14 md:w-16 p-2 text-[11px] md:text-xs font-semibold text-stone-400 text-right flex-shrink-0">
                 {String(hour).padStart(2, '0')}:00
               </div>
             </div>
           ))}
 
           {/* Time Blocks */}
-          <div className="absolute top-0 bottom-0 left-16 right-4">
+          <div className="absolute top-0 bottom-0 left-14 md:left-16 right-2 md:right-4">
             {displayBlocks.map(block => (
               <div 
                 key={block.id}
-                className="absolute left-2 right-2 bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-700 border-l-4 border-l-stone-900 dark:border-l-white rounded-md p-2 text-stone-900 dark:text-stone-100 overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                className="absolute left-1 md:left-2 right-1 md:right-2 glass-pill border-l-4 border-l-white rounded-xl p-2 md:p-2.5 text-white overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-[1.01]"
                 style={getPositionStyles(block.startTime, block.endTime)}
                 onClick={() => {
-                  if (confirm("Bu blokni o'chirmoqchimisiz?")) {
+                  if (confirm("Are you sure you want to delete this block?")) {
                     setTimeBlocks(timeBlocks.filter(tb => tb.id !== block.id));
                   }
                 }}
               >
-                <div className="text-[10px] uppercase font-bold tracking-wider text-stone-500 mb-0.5">{block.startTime} - {block.endTime}</div>
-                <div className="text-sm font-semibold leading-tight truncate">{block.title}</div>
+                <div className="text-[10px] uppercase font-bold tracking-wider text-stone-400 mb-0.5">{block.startTime} - {block.endTime}</div>
+                <div className="text-xs md:text-sm font-bold leading-tight truncate text-white">{block.title}</div>
               </div>
             ))}
           </div>

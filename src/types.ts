@@ -1,6 +1,6 @@
 export type Priority = 'low' | 'medium' | 'high';
 
-export type TaskCategory = 'ish' | 'oqish' | 'shaxsiy' | 'salomatlik' | 'moliya' | 'boshqa';
+export type TaskCategory = 'work' | 'study' | 'personal' | 'health' | 'finance' | 'other';
 
 export interface Task {
   id: string;

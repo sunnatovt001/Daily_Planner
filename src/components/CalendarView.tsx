@@ -9,8 +9,8 @@ export default function CalendarView() {
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart, { weekStarts: 1 }); // Monday start
-  const endDate = endOfWeek(monthEnd, { weekStarts: 1 });
+  const startDate = startOfWeek(monthStart, { weekStartsOn: 1 }); // Monday start
+  const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
   const dateFormat = "MMMM yyyy";
   const days = [];
@@ -26,24 +26,24 @@ export default function CalendarView() {
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
 
   return (
-    <div className="p-8 max-w-5xl mx-auto animate-in fade-in duration-500">
-      <header className="mb-8 flex items-center justify-between bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm">
-        <button onClick={prevMonth} className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800">
-          <ChevronLeft size={24} />
+    <div className="p-4 md:p-8 max-w-5xl mx-auto animate-in fade-in duration-500">
+      <header className="mb-6 md:mb-8 flex items-center justify-between glass-card p-4 rounded-2xl shadow-lg border border-white/10">
+        <button onClick={prevMonth} className="p-2 rounded-xl glass-pill hover:scale-105 active:scale-95 transition-all text-white">
+          <ChevronLeft size={20} />
         </button>
-        <h1 className="text-xl font-bold tracking-tight capitalize">
+        <h1 className="text-lg md:text-xl font-extrabold tracking-tight capitalize text-white">
           {format(currentDate, dateFormat)}
         </h1>
-        <button onClick={nextMonth} className="p-2 rounded-lg hover:bg-stone-100 dark:hover:bg-stone-800">
-          <ChevronRight size={24} />
+        <button onClick={nextMonth} className="p-2 rounded-xl glass-pill hover:scale-105 active:scale-95 transition-all text-white">
+          <ChevronRight size={20} />
         </button>
       </header>
 
-      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm overflow-hidden">
+      <div className="glass-card rounded-2xl shadow-xl overflow-hidden border border-white/10">
         {/* Days Header */}
-        <div className="grid grid-cols-7 border-b border-stone-200 dark:border-stone-800">
-          {['Dush', 'Sesh', 'Chor', 'Pay', 'Jum', 'Shan', 'Yak'].map((d) => (
-            <div key={d} className="p-4 text-center text-sm font-semibold text-stone-500">
+        <div className="grid grid-cols-7 border-b border-white/10">
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+            <div key={d} className="p-2 md:p-4 text-center text-xs md:text-sm font-bold text-stone-400">
               {d}
             </div>
           ))}
@@ -60,37 +60,37 @@ export default function CalendarView() {
             return (
               <div 
                 key={date.toString()} 
-                className={`min-h-[120px] p-2 border-b border-r border-stone-100 dark:border-stone-800 transition-colors ${
-                  !isCurrentMonth ? 'bg-stone-50/50 dark:bg-stone-950/50 text-stone-400' : 'hover:bg-stone-50 dark:hover:bg-stone-800/50'
+                className={`min-h-[80px] md:min-h-[120px] p-1.5 md:p-2 border-b border-r border-white/10 transition-all ${
+                  !isCurrentMonth ? 'bg-white/[0.02] text-stone-600' : 'hover:bg-white/5 text-stone-200'
                 } ${i % 7 === 6 ? 'border-r-0' : ''}`}
               >
-                <div className="flex justify-between items-start mb-2">
-                  <span className={`w-7 h-7 flex items-center justify-center text-sm font-medium rounded-full ${
-                    isToday ? 'bg-stone-900 dark:bg-white text-white dark:text-stone-900' : ''
+                <div className="flex justify-between items-start mb-1 md:mb-2">
+                  <span className={`w-6 h-6 md:w-7 md:h-7 flex items-center justify-center text-xs md:text-sm font-bold rounded-full ${
+                    isToday ? 'bg-white text-stone-950 shadow-md shadow-white/20 scale-105 font-black' : ''
                   }`}>
                     {format(date, 'd')}
                   </span>
                   {dayTasks.length > 0 && (
-                    <span className="text-xs font-bold text-stone-400">{dayTasks.length} ta</span>
+                    <span className="hidden md:inline text-[10px] font-bold text-stone-400">{dayTasks.length} tasks</span>
                   )}
                 </div>
                 
                 <div className="space-y-1">
-                  {dayTasks.slice(0, 3).map(task => (
+                  {dayTasks.slice(0, 2).map(task => (
                     <div 
                       key={task.id} 
-                      className={`text-xs px-2 py-1 rounded truncate font-medium border border-stone-200 dark:border-stone-800 ${
+                      className={`text-[10px] md:text-xs px-1.5 py-0.5 md:py-1 rounded-lg truncate font-semibold border ${
                         task.completed 
-                          ? 'bg-transparent text-stone-400 line-through border-transparent' 
-                          : 'bg-stone-50 dark:bg-stone-950 text-stone-700 dark:text-stone-300'
+                          ? 'opacity-40 line-through border-transparent' 
+                          : 'glass-pill text-stone-100 border-white/10'
                       }`}
                     >
                       {task.title}
                     </div>
                   ))}
-                  {dayTasks.length > 3 && (
-                    <div className="text-xs text-stone-500 text-center font-medium mt-1">
-                      +{dayTasks.length - 3} ta yana
+                  {dayTasks.length > 2 && (
+                    <div className="text-[9px] md:text-xs text-stone-400 text-center font-bold mt-0.5">
+                      +{dayTasks.length - 2} more
                     </div>
                   )}
                 </div>

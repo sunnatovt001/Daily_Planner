@@ -28,33 +28,32 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
   const [notes, setNotes] = useState<DailyNote[]>([]);
   const [reviews, setReviews] = useState<DailyReview[]>([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     // Load from local storage
     const loadedTasks = getItem<Task[]>('planner_tasks', [
-      { id: 't1', title: 'Loyihani tugatish', date: todayStr, time: '10:00', priority: 'high', category: 'ish', completed: false, isTopPriority: true, createdAt: Date.now() },
-      { id: 't2', title: 'Kitob o\'qish', date: todayStr, time: '19:00', priority: 'medium', category: 'oqish', completed: false, createdAt: Date.now() },
-      { id: 't3', title: 'Sport zaliga borish', date: todayStr, time: '18:00', priority: 'high', category: 'salomatlik', completed: false, isTopPriority: true, createdAt: Date.now() }
+      { id: 't1', title: 'Finish project', date: todayStr, time: '10:00', priority: 'high', category: 'work', completed: false, isTopPriority: true, createdAt: Date.now() },
+      { id: 't2', title: 'Read a book', date: todayStr, time: '19:00', priority: 'medium', category: 'study', completed: false, createdAt: Date.now() },
+      { id: 't3', title: 'Go to the gym', date: todayStr, time: '18:00', priority: 'high', category: 'health', completed: false, isTopPriority: true, createdAt: Date.now() }
     ]);
     const loadedHabits = getItem<Habit[]>('planner_habits', [
-       { id: 'h1', name: 'Suv ichish', icon: '💧', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() },
-       { id: 'h2', name: '30 daqiqa o\'qish', icon: '📚', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() }
+       { id: 'h1', name: 'Drink water', icon: '💧', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() },
+       { id: 'h2', name: 'Read 30 minutes', icon: '📚', frequency: ['daily'], completedDates: [], currentStreak: 0, bestStreak: 0, createdAt: Date.now() }
     ]);
     const loadedTimeBlocks = getItem<TimeBlock[]>('planner_time_blocks', [
-       { id: 'tb1', date: todayStr, startTime: '09:00', endTime: '11:00', title: 'Fokusli ish', category: 'ish' },
-       { id: 'tb2', date: todayStr, startTime: '13:00', endTime: '14:00', title: 'Tushlik', category: 'boshqa' }
+       { id: 'tb1', date: todayStr, startTime: '09:00', endTime: '11:00', title: 'Deep work', category: 'work' },
+       { id: 'tb2', date: todayStr, startTime: '13:00', endTime: '14:00', title: 'Lunch', category: 'other' }
     ]);
     const loadedNotes = getItem<DailyNote[]>('planner_notes', []);
     const loadedReviews = getItem<DailyReview[]>('planner_reviews', []);
-    const loadedTheme = getItem<boolean>('planner_theme', false);
 
     setTasks(loadedTasks);
     setHabits(loadedHabits);
     setTimeBlocks(loadedTimeBlocks);
     setNotes(loadedNotes);
     setReviews(loadedReviews);
-    setIsDarkMode(loadedTheme);
+    setIsDarkMode(true);
     setIsInitialized(true);
   }, [todayStr]);
 
@@ -65,17 +64,13 @@ export const PlannerProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setItem('planner_time_blocks', timeBlocks);
       setItem('planner_notes', notes);
       setItem('planner_reviews', reviews);
-      setItem('planner_theme', isDarkMode);
+      setItem('planner_theme', true);
     }
-  }, [tasks, habits, timeBlocks, notes, reviews, isDarkMode, isInitialized]);
+  }, [tasks, habits, timeBlocks, notes, reviews, isInitialized]);
 
   useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+    document.documentElement.classList.add('dark');
+  }, []);
 
   const toggleTheme = () => setIsDarkMode(prev => !prev);
 
